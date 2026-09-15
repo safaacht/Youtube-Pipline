@@ -1,6 +1,9 @@
 import os
 from googleapiclient.discovery import build
 
+import json
+from datetime import datetime
+
 
 API_KEY = os.getenv("API_KEY")
 CHANNEL_HANDLE = os.getenv("CHANNEL_HANDLE")
@@ -62,4 +65,12 @@ for i in range(0 , len(video_ids) , 50) :
 
     all_details.extend(details_response["items"])
 
-print("Total video details:", (all_details))    
+
+today = datetime.now().strftime("%Y-%m-%d")
+
+ytb_json = f"/opt/airflow/data/youtube_SAFAA_{today}.json"
+
+with open(ytb_json , "w" , encoding= "utf-8") as file :
+    json.dump(all_details,file,ensure_ascii=False,indent=2)
+
+print("JSON saved :" , ytb_json)    
