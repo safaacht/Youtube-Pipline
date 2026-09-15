@@ -66,11 +66,28 @@ for i in range(0 , len(video_ids) , 50) :
     all_details.extend(details_response["items"])
 
 
+clean_videos = []
+
+for video in all_details:
+    clean_video = {
+        "videoId": video["id"],
+        "title": video["snippet"]["title"],
+        "publishedAt": video["snippet"]["publishedAt"],
+        "duration": video["contentDetails"]["duration"],
+        "viewCount": video["statistics"].get("viewCount", "0"),
+        "likeCount": video["statistics"].get("likeCount", "0"),
+        "commentCount": video["statistics"].get("commentCount", "0")
+    }
+
+    clean_videos.append(clean_video)
+
+
+
 today = datetime.now().strftime("%Y-%m-%d")
 
 ytb_json = f"/opt/airflow/data/youtube_SAFAA_{today}.json"
 
 with open(ytb_json , "w" , encoding= "utf-8") as file :
-    json.dump(all_details,file,ensure_ascii=False,indent=2)
+    json.dump(clean_videos,file,ensure_ascii=False,indent=2)
 
 print("JSON saved :" , ytb_json)    
