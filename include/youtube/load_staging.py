@@ -42,6 +42,4 @@ def load_to_staging() :
 
     print("Videos inserted into Staging:", len(videos))    
 
-    # return videos
-
-print(load_to_staging())
+    
